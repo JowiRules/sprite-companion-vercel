@@ -1,0 +1,135 @@
+/* Compact mobile header, filters, legend and player summary */
+@media (max-width: 560px){
+  .shell{
+    padding-top:12px;
+  }
+
+  .hero{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:end;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .hero>div{min-width:0}
+  .eyebrow{
+    margin:0 0 3px;
+    font-size:.54rem;
+    letter-spacing:.14em;
+  }
+  h1{
+    font-size:1.48rem;
+    line-height:1.05;
+    letter-spacing:-.035em;
+    white-space:nowrap;
+  }
+  .subtitle{display:none}
+  .ghost{
+    width:auto;
+    height:34px;
+    margin:0;
+    padding:0 10px;
+    border-radius:10px;
+    font-size:.68rem;
+    white-space:nowrap;
+  }
+
+  .controls{
+    padding:9px;
+    border-radius:14px;
+    gap:8px;
+  }
+  .controls>label>span,
+  .controls>div>span{
+    margin:0 0 4px;
+    font-size:.56rem;
+    letter-spacing:.075em;
+  }
+  .controls input{
+    height:35px;
+    border-radius:10px;
+    padding:0 10px;
+    font-size:.78rem;
+  }
+  .segmented{
+    flex-wrap:nowrap;
+    gap:4px;
+    overflow-x:auto;
+    overscroll-behavior-inline:contain;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .segmented::-webkit-scrollbar{display:none}
+  .segmented button{
+    flex:0 0 auto;
+    height:31px;
+    border-radius:9px;
+    padding:0 9px;
+    font-size:.68rem;
+    white-space:nowrap;
+  }
+
+  .legend{
+    gap:5px 10px;
+    padding:8px 2px 6px;
+    font-size:.63rem;
+    white-space:nowrap;
+  }
+  .legend span{gap:4px}
+  .legend .hint{display:none}
+  .dot{
+    width:7px;
+    height:7px;
+  }
+
+  .player-stats{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    margin:4px 0 7px;
+    border-radius:13px;
+  }
+  .player-stat{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:3px;
+    padding:8px 5px;
+    text-align:center;
+    border-right:1px solid var(--line);
+    border-bottom:0;
+  }
+  .player-stat:last-child{border-right:0}
+  .player-stat>strong{
+    grid-column:auto;
+    font-size:.67rem;
+    line-height:1;
+  }
+  .player-stat>span{
+    align-items:center;
+    gap:0;
+  }
+  .player-stat b{
+    font-size:.86rem;
+    line-height:1;
+  }
+  .player-stat small{
+    font-size:.47rem;
+    letter-spacing:.04em;
+    line-height:1.1;
+  }
+  .mastery-stat{
+    padding-top:1px;
+  }
+
+  .sync{
+    min-height:14px;
+    margin:2px 2px 6px;
+    font-size:.62rem;
+  }
+}
+
+@media (max-width: 370px){
+  h1{font-size:1.34rem}
+  .ghost{padding:0 8px;font-size:.62rem}
+  .segmented button{padding:0 8px;font-size:.64rem}
+  .player-stat{padding-left:3px;padding-right:3px}
+  .player-stat b{font-size:.8rem}
+}
