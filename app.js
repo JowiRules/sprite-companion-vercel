@@ -55,29 +55,48 @@
     status.className = `sync ${cls}`;
   }
 
+  function mapsDiffer(a, b) {
+    if (a.size !== b.size) return true;
+    for (const [k,v] of b) if ((a.get(k) ?? 0) !== v) return true;
+    return false;
+  }
+
   async function loadProgress(quiet=false) {
     if (!quiet) setStatus('Sincronizando progreso…');
     try {
       const r = await fetch(`${SUPABASE_URL}/rest/v1/sprite_progress?select=player_id,sprite_id,level`, { headers:headers(false), cache:'no-store' });
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const rows = await r.json();
-      for (const row of rows) state.progress.set(key(row.player_id,row.sprite_id), Number(row.level)||0);
-      render();
-      setStatus('Progreso sincronizado','ok');
+      const nextProgress = new Map();
+      for (const row of rows) nextProgress.set(key(row.player_id,row.sprite_id), Number(row.level)||0);
+      const changed = mapsDiffer(state.progress, nextProgress);
+      state.progress = nextProgress;
+      if (changed) refreshProgressUI();
+      if (!quiet) setStatus('Progreso sincronizado','ok');
     } catch (e) {
       console.error(e);
-      setStatus('No se ha podido sincronizar. Se reintentará automáticamente.','error');
+      if (!quiet) setStatus('No se ha podido sincronizar. Se reintentará automáticamente.','error');
     }
   }
 
-  async function cycle(playerId, spriteId) {
+  function applyButtonState(b, player, sprite, n) {
+    b.className = `player-mark s${n}`;
+    b.title = `${player.name} · ${['Falta','Obtenido','Maestría'][n]}`;
+    b.setAttribute('aria-label', b.title);
+    const symbol = n === 0 ? '×' : n === 1 ? '✓' : '';
+    b.innerHTML = `${n===2?'<span class="crown" aria-hidden="true">👑</span>':''}<span class="initial">${player.initial}</span>${symbol?`<span class="symbol">${symbol}</span>`:''}`;
+  }
+
+  async function cycle(playerId, spriteId, button, player, sprite) {
     const k = key(playerId,spriteId);
     if (state.saving.has(k)) return;
     const before = level(playerId,spriteId);
     const next = (before + 1) % 3;
     state.progress.set(k,next);
     state.saving.add(k);
-    render();
+    applyButtonState(button, player, sprite, next);
+    updateStats();
+    if (state.filter !== 'all') render();
     setStatus('Guardando cambio…');
     try {
       const url = `${SUPABASE_URL}/rest/v1/sprite_progress?player_id=eq.${encodeURIComponent(playerId)}&sprite_id=eq.${encodeURIComponent(spriteId)}`;
@@ -87,26 +106,27 @@
     } catch (e) {
       console.error(e);
       state.progress.set(k,before);
-      render();
+      if (button.isConnected) applyButtonState(button, player, sprite, before);
+      updateStats();
+      if (state.filter !== 'all') render();
       setStatus('No se ha podido guardar el cambio.','error');
     } finally { state.saving.delete(k); }
   }
 
   function buttonFor(player,sprite,n) {
     const b = document.createElement('button');
-    b.className = `player-mark s${n}`;
     b.type = 'button';
-    b.title = `${player.name} · ${['Falta','Obtenido','Maestría'][n]}`;
-    b.setAttribute('aria-label', b.title);
-    const symbol = n === 0 ? '×' : n === 1 ? '✓' : '';
-    b.innerHTML = `${n===2?'<span class="crown" aria-hidden="true">👑</span>':''}<span class="initial">${player.initial}</span>${symbol?`<span class="symbol">${symbol}</span>`:''}`;
-    b.addEventListener('click', () => cycle(player.id,sprite.id));
+    b.dataset.player = player.id;
+    b.dataset.sprite = sprite.id;
+    applyButtonState(b, player, sprite, n);
+    b.addEventListener('click', () => cycle(player.id,sprite.id,b,player,sprite));
     return b;
   }
 
   function card(sprite) {
     const el = document.createElement('article');
     el.className = `card variant-${sprite.variant}`;
+    el.dataset.sprite = sprite.id;
     const art = document.createElement('div'); art.className='sprite-art';
     const img = document.createElement('img');
     img.loading='lazy'; img.alt=sprite.name;
@@ -135,37 +155,70 @@
     });
   }
 
-  function updateStats(list) {
-    let missing=0, owned=0, mastery=0;
-    for (const s of sprites) for (const p of players) {
-      const n=level(p.id,s.id); if(n===0) missing++; else if(n===1) owned++; else mastery++;
+  function updateStats() {
+    for (const p of players) {
+      let owned = 0;
+      let mastery = 0;
+      for (const s of sprites) {
+        const n = level(p.id,s.id);
+        if (n > 0) owned++;
+        if (n === 2) mastery++;
+      }
+      $(`#${p.id}Owned`).textContent = `${owned}/${sprites.length}`;
+      $(`#${p.id}Mastery`).textContent = mastery;
     }
-    $('#visibleCount').textContent=list.length;
-    $('#missingCount').textContent=missing;
-    $('#ownedCount').textContent=owned;
-    $('#masteryCount').textContent=mastery;
+  }
+
+  function refreshProgressUI() {
+    if (state.filter !== 'all') {
+      render();
+      return;
+    }
+    document.querySelectorAll('.player-mark[data-player][data-sprite]').forEach(b => {
+      const player = players.find(p => p.id === b.dataset.player);
+      const sprite = sprites.find(s => s.id === b.dataset.sprite);
+      if (player && sprite) applyButtonState(b, player, sprite, level(player.id, sprite.id));
+    });
+    updateStats();
   }
 
   function render() {
-    const list=visibleSprites(); grid.textContent='';
-    if (!list.length) { const e=document.createElement('div'); e.className='empty'; e.textContent='No hay espíritus que coincidan con los filtros.'; grid.append(e); }
-    else list.forEach(s => grid.append(card(s)));
-    updateStats(list);
+    const list=visibleSprites();
+    grid.textContent='';
+    if (!list.length) {
+      const e=document.createElement('div');
+      e.className='empty';
+      e.textContent='No hay espíritus que coincidan con los filtros.';
+      grid.append(e);
+    } else {
+      list.forEach(s => grid.append(card(s)));
+    }
+    updateStats();
   }
 
   function buildFilters() {
     const vf=$('#variantFilters');
     [['all','Todas'],['base','Base'],['gold','Gold'],['cheatmaster','Cheat Master'],['loothacker','Loot Hacker'],['bountyhunter','Bounty Hunter']].forEach(([v,t])=>{
-      const b=document.createElement('button'); b.textContent=t; b.className=v==='all'?'active':''; b.onclick=()=>{state.variant=v; [...vf.children].forEach(x=>x.classList.toggle('active',x===b)); render();}; vf.append(b);
+      const b=document.createElement('button');
+      b.textContent=t;
+      b.className=v==='all'?'active':'';
+      b.onclick=()=>{state.variant=v; [...vf.children].forEach(x=>x.classList.toggle('active',x===b)); render();};
+      vf.append(b);
     });
     const sf=$('#stateFilters');
     [['all','Todos'],['missing','Falta'],['owned','Obtenido'],['mastery','Maestría']].forEach(([v,t])=>{
-      const b=document.createElement('button'); b.textContent=t; b.className=v==='all'?'active':''; b.onclick=()=>{state.filter=v; [...sf.children].forEach(x=>x.classList.toggle('active',x===b)); render();}; sf.append(b);
+      const b=document.createElement('button');
+      b.textContent=t;
+      b.className=v==='all'?'active':'';
+      b.onclick=()=>{state.filter=v; [...sf.children].forEach(x=>x.classList.toggle('active',x===b)); render();};
+      sf.append(b);
     });
   }
 
   $('#searchInput').addEventListener('input', e => { state.search=e.target.value; render(); });
   $('#refreshBtn').addEventListener('click', () => loadProgress(false));
-  buildFilters(); render(); loadProgress(false);
+  buildFilters();
+  render();
+  loadProgress(false);
   setInterval(() => loadProgress(true), 2500);
 })();
