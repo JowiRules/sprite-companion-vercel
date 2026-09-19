@@ -1,0 +1,134 @@
+/* Compact card layout + text-overlap fixes */
+.card-body{
+  margin-top:0;
+  padding-top:9px;
+}
+.card-title{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+  overflow-wrap:anywhere;
+}
+.family{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+@media(max-width:780px){
+  .grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+  }
+  .card{
+    border-radius:14px;
+  }
+  .card-body{
+    padding:7px 7px 9px;
+  }
+  .card-title{
+    min-height:31px;
+    font-size:.76rem;
+    line-height:1.15;
+  }
+  .family{
+    margin:3px 0 8px;
+    font-size:.59rem;
+  }
+  .variant-pill{
+    top:6px;
+    left:6px;
+    max-width:calc(100% - 12px);
+    padding:3px 6px;
+    font-size:.54rem;
+  }
+  .player-row{
+    gap:4px;
+    padding-top:5px;
+  }
+  .player-mark{
+    height:35px;
+    border-radius:9px;
+    gap:2px;
+    font-size:.74rem;
+  }
+  .player-mark::after{
+    border-radius:7px;
+  }
+  .symbol{
+    font-size:.58rem;
+  }
+  .crown{
+    top:-14px;
+    font-size:.9rem;
+  }
+}
+
+@media(max-width:560px){
+  .shell{
+    width:min(100% - 12px,1280px);
+  }
+  .grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+  }
+  .card{
+    border-radius:12px;
+  }
+  .card:hover{
+    transform:none;
+  }
+  .sprite-art::after{
+    height:24%;
+  }
+  .card-body{
+    padding:6px 5px 7px;
+  }
+  .card-title{
+    min-height:29px;
+    font-size:.69rem;
+    line-height:1.12;
+    letter-spacing:-.01em;
+  }
+  .family{
+    margin:2px 0 7px;
+    font-size:.54rem;
+  }
+  .variant-pill{
+    top:5px;
+    left:5px;
+    max-width:calc(100% - 10px);
+    padding:2px 5px;
+    font-size:.49rem;
+    letter-spacing:.025em;
+  }
+  .player-row{
+    gap:3px;
+    padding-top:5px;
+  }
+  .player-mark{
+    height:33px;
+    border-radius:8px;
+    font-size:.68rem;
+    padding:0;
+  }
+  .player-mark::after{
+    border-radius:6px;
+  }
+  .symbol{
+    font-size:.52rem;
+  }
+  .crown{
+    top:-13px;
+    font-size:.82rem;
+  }
+}
+
+@media(max-width:370px){
+  .grid{gap:5px}
+  .card-body{padding-left:4px;padding-right:4px}
+  .player-row{gap:2px}
+  .player-mark{height:31px;font-size:.64rem}
+  .card-title{font-size:.65rem}
+}
