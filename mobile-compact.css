@@ -1,7 +1,10 @@
 /* Compact mobile header, filters, legend and player summary */
 @media (max-width: 560px){
+  html,body{max-width:100%;overflow-x:hidden}
   .shell{
     padding-top:12px;
+    max-width:100%;
+    overflow-x:hidden;
   }
 
   .hero{
@@ -35,10 +38,14 @@
   }
 
   .controls{
+    width:100%;
+    min-width:0;
     padding:9px;
     border-radius:14px;
     gap:8px;
+    overflow:hidden;
   }
+  .controls>*{min-width:0;max-width:100%}
   .controls>label>span,
   .controls>div>span{
     margin:0 0 4px;
@@ -46,27 +53,37 @@
     letter-spacing:.075em;
   }
   .controls input{
+    display:block;
+    width:100%;
+    max-width:100%;
+    min-width:0;
     height:35px;
     border-radius:10px;
     padding:0 10px;
     font-size:.78rem;
   }
   .segmented{
-    flex-wrap:nowrap;
+    width:100%;
+    max-width:100%;
+    min-width:0;
     gap:4px;
-    overflow-x:auto;
-    overscroll-behavior-inline:contain;
-    scrollbar-width:none;
-    -webkit-overflow-scrolling:touch;
   }
-  .segmented::-webkit-scrollbar{display:none}
   .segmented button{
-    flex:0 0 auto;
     height:31px;
     border-radius:9px;
     padding:0 9px;
     font-size:.68rem;
     white-space:nowrap;
+  }
+  #variantFilters{
+    display:flex;
+    flex-wrap:wrap;
+    overflow:visible;
+  }
+  #stateFilters{
+    display:flex;
+    flex-wrap:wrap;
+    overflow:visible;
   }
 
   .legend{
@@ -129,7 +146,7 @@
 @media (max-width: 370px){
   h1{font-size:1.34rem}
   .ghost{padding:0 8px;font-size:.62rem}
-  .segmented button{padding:0 8px;font-size:.64rem}
+  .segmented button{padding:0 7px;font-size:.62rem}
   .player-stat{padding-left:3px;padding-right:3px}
   .player-stat b{font-size:.8rem}
 }
