@@ -5,6 +5,12 @@
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtlemJsZ2pvd2h5b254eWxibmt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MjczODQsImV4cCI6MjEwNTAwMzM4NH0.KKNf7bTi5Jjs-gWmzxNcJD2fgJSSD_pVP_qVRDzyKek';
   const ASSET_HOST = 'https://sprite-companion-joel-sonia-namw04moj.vercel.app';
   const FALLBACK_HOST = 'https://sprite-vault-pro.lovable.app';
+  const NEW_ART_FILES = new Set([
+    'crown_bountyhunter.webp',
+    'blinky_basic.webp', 'blinky_gold.webp', 'blinky_cheatmaster.webp', 'blinky_loothacker.webp',
+    'crashbandicoot_basic.webp', 'crashbandicoot_gold.webp', 'crashbandicoot_cheatmaster.webp', 'crashbandicoot_loothacker.webp',
+    'pond_basic.webp', 'pond_gold.webp', 'pond_cheatmaster.webp', 'pond_loothacker.webp'
+  ]);
 
   const players = [
     { id: 'joel', initial: 'J', name: 'Joel' },
@@ -130,8 +136,17 @@
     const art = document.createElement('div'); art.className='sprite-art';
     const img = document.createElement('img');
     img.loading='lazy'; img.alt=sprite.name;
-    img.src = `${ASSET_HOST}/api/sprite?name=${encodeURIComponent(sprite.file)}`;
-    img.onerror = () => { if (!img.dataset.fallback) { img.dataset.fallback='1'; img.src=`${FALLBACK_HOST}/sprites/${encodeURIComponent(sprite.file)}`; } };
+    img.src = NEW_ART_FILES.has(sprite.file)
+      ? `/api/new-sprite?name=${encodeURIComponent(sprite.file)}`
+      : `${ASSET_HOST}/api/sprite?name=${encodeURIComponent(sprite.file)}`;
+    img.onerror = () => {
+      if (!img.dataset.fallback) {
+        img.dataset.fallback='1';
+        img.src=`${FALLBACK_HOST}/sprites/${encodeURIComponent(sprite.file)}`;
+      } else {
+        img.style.display='none';
+      }
+    };
     const pill = document.createElement('span'); pill.className='variant-pill'; pill.textContent=labels[sprite.variant];
     art.append(img,pill);
     const body = document.createElement('div'); body.className='card-body';
