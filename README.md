@@ -14,4 +14,6 @@ El progreso se conserva en el proyecto Supabase existente `Sprite Companion`.
 
 Proyecto estático: no necesita build ni dependencias.
 
-En Vercel, conecta este repositorio al proyecto existente `sprite-companion-joel-sonia` y despliega desde la raíz.
+En Vercel, este repositorio está conectado al proyecto existente `sprite-companion-joel-sonia` y despliega desde la raíz.
+
+Rama de producción: `main`.
