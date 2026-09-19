@@ -18,7 +18,11 @@
       <div><span>Estado</span><div id="stateFilters" class="segmented"></div></div>
     </section>
     <section class="legend"><span><i class="dot missing"></i> Rojo · Falta</span><span><i class="dot owned"></i> Verde · Obtenido</span><span><i class="dot mastery"></i> Dorado · Maestría</span><span class="hint">Pulsa J, S o B para cambiar de estado.</span></section>
-    <section class="stats panel"><div><strong id="visibleCount">74</strong><span>visibles</span></div><div><strong id="masteryCount">0</strong><span>maestrías</span></div><div><strong id="ownedCount">0</strong><span>obtenidos</span></div><div><strong id="missingCount">0</strong><span>faltan</span></div></section>
+    <section class="player-stats panel" aria-label="Resumen por jugador">
+      <div class="player-stat"><strong>Joel</strong><span><b id="joelOwned">0/74</b><small>tiene</small></span><span class="mastery-stat"><b id="joelMastery">0</b><small>maestría</small></span></div>
+      <div class="player-stat"><strong>Sonia</strong><span><b id="soniaOwned">0/74</b><small>tiene</small></span><span class="mastery-stat"><b id="soniaMastery">0</b><small>maestría</small></span></div>
+      <div class="player-stat"><strong>Bea</strong><span><b id="beaOwned">0/74</b><small>tiene</small></span><span class="mastery-stat"><b id="beaMastery">0</b><small>maestría</small></span></div>
+    </section>
     <div id="syncStatus" class="sync">Conectando con el progreso compartido…</div>
     <section id="spriteGrid" class="grid"></section>
     <footer>Proyecto fan no oficial · 74 entradas · progreso sincronizado con Supabase</footer>
