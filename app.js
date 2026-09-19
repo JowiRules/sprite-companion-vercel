@@ -1,0 +1,171 @@
+(() => {
+  'use strict';
+
+  const SUPABASE_URL = 'https://kezblgjowhyonxylbnku.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtlemJsZ2pvd2h5b254eWxibmt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0MjczODQsImV4cCI6MjEwNTAwMzM4NH0.KKNf7bTi5Jjs-gWmzxNcJD2fgJSSD_pVP_qVRDzyKek';
+  const ASSET_HOST = 'https://sprite-companion-joel-sonia-namw04moj.vercel.app';
+  const FALLBACK_HOST = 'https://sprite-vault-pro.lovable.app';
+
+  const players = [
+    { id: 'joel', initial: 'J', name: 'Joel' },
+    { id: 'sonia', initial: 'S', name: 'Sonia' },
+    { id: 'bea', initial: 'B', name: 'Bea' },
+  ];
+
+  const labels = {
+    base: 'Base', gold: 'Gold', cheatmaster: 'Cheat Master', loothacker: 'Loot Hacker', bountyhunter: 'Bounty Hunter'
+  };
+  const suffix = { base: 'basic', gold: 'gold', cheatmaster: 'cheatmaster', loothacker: 'loothacker', bountyhunter: 'bountyhunter' };
+  const fam = (slug, family, base = family) => ({ slug, family, entries: [
+    ['base', base], ['gold', `Gold ${base}`], ['cheatmaster', `Cheat Master ${base}`], ['loothacker', `Loot Hacker ${base}`]
+  ]});
+
+  const families = [
+    fam('jonesy','Jonesy'), fam('adventure','Adventure'),
+    { slug:'bush', family:'Bush', entries:[['base','Bush'],['gold','Gold Bush'],['cheatmaster','Cheat Master Bush'],['loothacker','Loot Hacker Bushranger']] },
+    fam('sonic','Sonic'), fam('tails','Tails'), fam('shadow','Shadow'), fam('eightbit','8-Bit'), fam('jackrabbit','Jackrabbit'),
+    { slug:'crown', family:'Crown', entries:[['base','Crown'],['gold','Gold Crown'],['cheatmaster','Cheat Master Crown'],['loothacker','Loot Hacker Crown'],['bountyhunter','Bounty Hunter Crown']] },
+    fam('killswitch','Killswitch'), fam('klombo','Klombo'),
+    { slug:'megaman', family:'Mega Man', entries:[['base','Mega Man']] },
+    fam('overshield','Overshield'),
+    { slug:'xray', family:'X-Ray', entries:[['base','X-Ray'],['gold','Gold X-Ray'],['cheatmaster','Cheatmaster X-Ray'],['loothacker','Loot Hacker X-Ray']] },
+    { slug:'onigiri', family:'Onigiri', entries:[['base','Onigiri'],['gold','Gold Onigiri'],['cheatmaster','Cheatmaster Onigiri'],['loothacker','Loot Hacker Onigiri']] },
+    fam('stormscout','Storm Scout'), fam('blinky','Blinky'), fam('crashbandicoot','Crash Bandicoot'), fam('pond','Pond')
+  ];
+
+  const sprites = families.flatMap(({slug,family,entries}) => entries.map(([variant,name]) => ({
+    id:`${slug}_${variant}`, slug, family, variant, name, file:`${slug}_${suffix[variant]}.webp`
+  })));
+
+  const state = { progress:new Map(), search:'', variant:'all', filter:'all', saving:new Set() };
+  const $ = s => document.querySelector(s);
+  const grid = $('#spriteGrid');
+  const status = $('#syncStatus');
+
+  const key = (p,s) => `${p}:${s}`;
+  const level = (p,s) => state.progress.get(key(p,s)) ?? 0;
+  const headers = json => ({
+    apikey: SUPABASE_ANON_KEY,
+    Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+    ...(json ? {'Content-Type':'application/json', Prefer:'return=minimal'} : {})
+  });
+
+  function setStatus(text, cls='') {
+    status.textContent = text;
+    status.className = `sync ${cls}`;
+  }
+
+  async function loadProgress(quiet=false) {
+    if (!quiet) setStatus('Sincronizando progreso…');
+    try {
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/sprite_progress?select=player_id,sprite_id,level`, { headers:headers(false), cache:'no-store' });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const rows = await r.json();
+      for (const row of rows) state.progress.set(key(row.player_id,row.sprite_id), Number(row.level)||0);
+      render();
+      setStatus('Progreso sincronizado','ok');
+    } catch (e) {
+      console.error(e);
+      setStatus('No se ha podido sincronizar. Se reintentará automáticamente.','error');
+    }
+  }
+
+  async function cycle(playerId, spriteId) {
+    const k = key(playerId,spriteId);
+    if (state.saving.has(k)) return;
+    const before = level(playerId,spriteId);
+    const next = (before + 1) % 3;
+    state.progress.set(k,next);
+    state.saving.add(k);
+    render();
+    setStatus('Guardando cambio…');
+    try {
+      const url = `${SUPABASE_URL}/rest/v1/sprite_progress?player_id=eq.${encodeURIComponent(playerId)}&sprite_id=eq.${encodeURIComponent(spriteId)}`;
+      const r = await fetch(url,{ method:'PATCH', headers:headers(true), body:JSON.stringify({level:next}) });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      setStatus('Cambio guardado','ok');
+    } catch (e) {
+      console.error(e);
+      state.progress.set(k,before);
+      render();
+      setStatus('No se ha podido guardar el cambio.','error');
+    } finally { state.saving.delete(k); }
+  }
+
+  function buttonFor(player,sprite,n) {
+    const b = document.createElement('button');
+    b.className = `player-mark s${n}`;
+    b.type = 'button';
+    b.title = `${player.name} · ${['Falta','Obtenido','Maestría'][n]}`;
+    b.setAttribute('aria-label', b.title);
+    const symbol = n === 0 ? '×' : n === 1 ? '✓' : '';
+    b.innerHTML = `${n===2?'<span class="crown" aria-hidden="true">👑</span>':''}<span class="initial">${player.initial}</span>${symbol?`<span class="symbol">${symbol}</span>`:''}`;
+    b.addEventListener('click', () => cycle(player.id,sprite.id));
+    return b;
+  }
+
+  function card(sprite) {
+    const el = document.createElement('article');
+    el.className = `card variant-${sprite.variant}`;
+    const art = document.createElement('div'); art.className='sprite-art';
+    const img = document.createElement('img');
+    img.loading='lazy'; img.alt=sprite.name;
+    img.src = `${ASSET_HOST}/api/sprite?name=${encodeURIComponent(sprite.file)}`;
+    img.onerror = () => { if (!img.dataset.fallback) { img.dataset.fallback='1'; img.src=`${FALLBACK_HOST}/sprites/${encodeURIComponent(sprite.file)}`; } };
+    const pill = document.createElement('span'); pill.className='variant-pill'; pill.textContent=labels[sprite.variant];
+    art.append(img,pill);
+    const body = document.createElement('div'); body.className='card-body';
+    const title = document.createElement('h2'); title.className='card-title'; title.textContent=sprite.name;
+    const family = document.createElement('p'); family.className='family'; family.textContent=sprite.family;
+    const row = document.createElement('div'); row.className='player-row';
+    players.forEach(p => row.append(buttonFor(p,sprite,level(p.id,sprite.id))));
+    body.append(title,family,row); el.append(art,body); return el;
+  }
+
+  function visibleSprites() {
+    const q = state.search.trim().toLowerCase();
+    return sprites.filter(s => {
+      if (state.variant !== 'all' && s.variant !== state.variant) return false;
+      if (q && !`${s.name} ${s.family} ${labels[s.variant]}`.toLowerCase().includes(q)) return false;
+      if (state.filter !== 'all') {
+        const target = {missing:0,owned:1,mastery:2}[state.filter];
+        if (!players.some(p => level(p.id,s.id) === target)) return false;
+      }
+      return true;
+    });
+  }
+
+  function updateStats(list) {
+    let missing=0, owned=0, mastery=0;
+    for (const s of sprites) for (const p of players) {
+      const n=level(p.id,s.id); if(n===0) missing++; else if(n===1) owned++; else mastery++;
+    }
+    $('#visibleCount').textContent=list.length;
+    $('#missingCount').textContent=missing;
+    $('#ownedCount').textContent=owned;
+    $('#masteryCount').textContent=mastery;
+  }
+
+  function render() {
+    const list=visibleSprites(); grid.textContent='';
+    if (!list.length) { const e=document.createElement('div'); e.className='empty'; e.textContent='No hay espíritus que coincidan con los filtros.'; grid.append(e); }
+    else list.forEach(s => grid.append(card(s)));
+    updateStats(list);
+  }
+
+  function buildFilters() {
+    const vf=$('#variantFilters');
+    [['all','Todas'],['base','Base'],['gold','Gold'],['cheatmaster','Cheat Master'],['loothacker','Loot Hacker'],['bountyhunter','Bounty Hunter']].forEach(([v,t])=>{
+      const b=document.createElement('button'); b.textContent=t; b.className=v==='all'?'active':''; b.onclick=()=>{state.variant=v; [...vf.children].forEach(x=>x.classList.toggle('active',x===b)); render();}; vf.append(b);
+    });
+    const sf=$('#stateFilters');
+    [['all','Todos'],['missing','Falta'],['owned','Obtenido'],['mastery','Maestría']].forEach(([v,t])=>{
+      const b=document.createElement('button'); b.textContent=t; b.className=v==='all'?'active':''; b.onclick=()=>{state.filter=v; [...sf.children].forEach(x=>x.classList.toggle('active',x===b)); render();}; sf.append(b);
+    });
+  }
+
+  $('#searchInput').addEventListener('input', e => { state.search=e.target.value; render(); });
+  $('#refreshBtn').addEventListener('click', () => loadProgress(false));
+  buildFilters(); render(); loadProgress(false);
+  setInterval(() => loadProgress(true), 2500);
+})();
