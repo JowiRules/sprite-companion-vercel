@@ -100,7 +100,7 @@
   }
 
   .player-stats{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    grid-template-columns:repeat(4,minmax(0,1fr));
     margin:4px 0 7px;
     border-radius:13px;
   }
@@ -108,7 +108,7 @@
     display:grid;
     grid-template-columns:1fr;
     gap:3px;
-    padding:8px 5px;
+    padding:7px 3px;
     text-align:center;
     border-right:1px solid var(--line);
     border-bottom:0;
@@ -116,7 +116,7 @@
   .player-stat:last-child{border-right:0}
   .player-stat>strong{
     grid-column:auto;
-    font-size:.67rem;
+    font-size:.62rem;
     line-height:1;
   }
   .player-stat>span{
@@ -124,11 +124,11 @@
     gap:0;
   }
   .player-stat b{
-    font-size:.86rem;
+    font-size:.78rem;
     line-height:1;
   }
   .player-stat small{
-    font-size:.47rem;
+    font-size:.43rem;
     letter-spacing:.04em;
     line-height:1.1;
   }
