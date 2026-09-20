@@ -163,8 +163,8 @@
       if (state.variant !== 'all' && s.variant !== state.variant) return false;
       if (q && !`${s.name} ${s.family} ${labels[s.variant]}`.toLowerCase().includes(q)) return false;
       if (state.filter !== 'all') {
-        const target = {missing:0,owned:1,mastery:2}[state.filter];
-        if (!players.some(p => level(p.id,s.id) === target)) return false;
+        const playerId = state.filter.replace('missing-','');
+        if (level(playerId,s.id) !== 0) return false;
       }
       return true;
     });
@@ -221,11 +221,17 @@
       vf.append(b);
     });
     const sf=$('#stateFilters');
-    [['all','Todos'],['missing','Falta'],['owned','Obtenido'],['mastery','Maestría']].forEach(([v,t])=>{
+    players.forEach(p=>{
+      const v=`missing-${p.id}`;
       const b=document.createElement('button');
-      b.textContent=t;
-      b.className=v==='all'?'active':'';
-      b.onclick=()=>{state.filter=v; [...sf.children].forEach(x=>x.classList.toggle('active',x===b)); render();};
+      b.textContent=p.name;
+      b.title=`Ver solo los espíritus que le faltan a ${p.name}`;
+      b.onclick=()=>{
+        const wasActive = state.filter === v;
+        state.filter = wasActive ? 'all' : v;
+        [...sf.children].forEach(x=>x.classList.toggle('active',!wasActive && x===b));
+        render();
+      };
       sf.append(b);
     });
   }
