@@ -16,6 +16,7 @@
     { id: 'joel', initial: 'J', name: 'Joel' },
     { id: 'sonia', initial: 'S', name: 'Sonia' },
     { id: 'bea', initial: 'B', name: 'Bea' },
+    { id: 'pilar', initial: 'P', name: 'Pilar' },
   ];
 
   const labels = {
