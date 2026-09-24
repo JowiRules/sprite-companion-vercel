@@ -7,9 +7,15 @@
   const FALLBACK_HOST = 'https://sprite-vault-pro.lovable.app';
   const NEW_ART_FILES = new Set([
     'crown_bountyhunter.webp',
-    'blinky_basic.webp', 'blinky_gold.webp', 'blinky_cheatmaster.webp', 'blinky_loothacker.webp',
-    'crashbandicoot_basic.webp', 'crashbandicoot_gold.webp', 'crashbandicoot_cheatmaster.webp', 'crashbandicoot_loothacker.webp',
-    'pond_basic.webp', 'pond_gold.webp', 'pond_cheatmaster.webp', 'pond_loothacker.webp'
+    'blinky_basic.webp', 'blinky_gold.webp', 'blinky_cheatmaster.webp', 'blinky_loothacker.webp', 'blinky_bountyhunter.webp',
+    'crashbandicoot_basic.webp', 'crashbandicoot_gold.webp', 'crashbandicoot_cheatmaster.webp', 'crashbandicoot_loothacker.webp', 'crashbandicoot_bountyhunter.webp',
+    'pond_basic.webp', 'pond_gold.webp', 'pond_cheatmaster.webp', 'pond_loothacker.webp', 'pond_bountyhunter.webp',
+    'jonesy_bountyhunter.webp', 'adventure_bountyhunter.webp', 'bush_bountyhunter.webp',
+    'sonic_bountyhunter.webp', 'tails_bountyhunter.webp', 'shadow_bountyhunter.webp',
+    'eightbit_bountyhunter.webp', 'jackrabbit_bountyhunter.webp', 'killswitch_bountyhunter.webp',
+    'klombo_bountyhunter.webp', 'overshield_bountyhunter.webp', 'xray_bountyhunter.webp',
+    'onigiri_bountyhunter.webp', 'stormscout_bountyhunter.webp',
+    'morgana_basic.webp', 'morgana_gold.webp', 'morgana_cheatmaster.webp', 'morgana_loothacker.webp', 'morgana_bountyhunter.webp'
   ]);
 
   const players = [
@@ -24,20 +30,20 @@
   };
   const suffix = { base: 'basic', gold: 'gold', cheatmaster: 'cheatmaster', loothacker: 'loothacker', bountyhunter: 'bountyhunter' };
   const fam = (slug, family, base = family) => ({ slug, family, entries: [
-    ['base', base], ['gold', `Gold ${base}`], ['cheatmaster', `Cheat Master ${base}`], ['loothacker', `Loot Hacker ${base}`]
+    ['base', base], ['gold', `Gold ${base}`], ['cheatmaster', `Cheat Master ${base}`], ['loothacker', `Loot Hacker ${base}`], ['bountyhunter', `Bounty Hunter ${base}`]
   ]});
 
   const families = [
     fam('jonesy','Jonesy'), fam('adventure','Adventure'),
-    { slug:'bush', family:'Bush', entries:[['base','Bush'],['gold','Gold Bush'],['cheatmaster','Cheat Master Bush'],['loothacker','Loot Hacker Bushranger']] },
+    { slug:'bush', family:'Bush', entries:[['base','Bush'],['gold','Gold Bush'],['cheatmaster','Cheat Master Bush'],['loothacker','Loot Hacker Bushranger'],['bountyhunter','Bounty Hunter Bush']] },
     fam('sonic','Sonic'), fam('tails','Tails'), fam('shadow','Shadow'), fam('eightbit','8-Bit'), fam('jackrabbit','Jackrabbit'),
     { slug:'crown', family:'Crown', entries:[['base','Crown'],['gold','Gold Crown'],['cheatmaster','Cheat Master Crown'],['loothacker','Loot Hacker Crown'],['bountyhunter','Bounty Hunter Crown']] },
     fam('killswitch','Killswitch'), fam('klombo','Klombo'),
     { slug:'megaman', family:'Mega Man', entries:[['base','Mega Man']] },
     fam('overshield','Overshield'),
-    { slug:'xray', family:'X-Ray', entries:[['base','X-Ray'],['gold','Gold X-Ray'],['cheatmaster','Cheatmaster X-Ray'],['loothacker','Loot Hacker X-Ray']] },
-    { slug:'onigiri', family:'Onigiri', entries:[['base','Onigiri'],['gold','Gold Onigiri'],['cheatmaster','Cheatmaster Onigiri'],['loothacker','Loot Hacker Onigiri']] },
-    fam('stormscout','Storm Scout'), fam('blinky','Blinky'), fam('crashbandicoot','Crash Bandicoot'), fam('pond','Pond')
+    { slug:'xray', family:'X-Ray', entries:[['base','X-Ray'],['gold','Gold X-Ray'],['cheatmaster','Cheatmaster X-Ray'],['loothacker','Loot Hacker X-Ray'],['bountyhunter','Bounty Hunter X-Ray']] },
+    { slug:'onigiri', family:'Onigiri', entries:[['base','Onigiri'],['gold','Gold Onigiri'],['cheatmaster','Cheatmaster Onigiri'],['loothacker','Loot Hacker Onigiri'],['bountyhunter','Bounty Hunter Onigiri']] },
+    fam('stormscout','Storm Scout'), fam('blinky','Blinky'), fam('crashbandicoot','Crash Bandicoot'), fam('pond','Pond'), fam('morgana','Morgana')
   ];
 
   const sprites = families.flatMap(({slug,family,entries}) => entries.map(([variant,name]) => ({
