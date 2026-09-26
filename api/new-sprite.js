@@ -39,7 +39,12 @@ const SOURCES = {
   'adventure_bountyhunter.webp': ['https://mysprites.me/images/sprites/adventure_bountyhunter.webp'],
   'bush_bountyhunter.webp': ['https://mysprites.me/images/sprites/bush_bountyhunter.webp'],
   'sonic_bountyhunter.webp': ['https://mysprites.me/images/sprites/sonic_bountyhunter.webp'],
-  'tails_bountyhunter.webp': ['https://mysprites.me/images/sprites/tails_bountyhunter.webp'],
+  'tails_bountyhunter.webp': [
+    'https://mysprites.me/images/sprites/tails_bountyhunter.webp',
+    'https://mysprites.me/images/sprites/Tails_bountyhunter.webp',
+    'https://mysprites.me/images/sprites/tails_bountyHunter.webp',
+    'https://mysprites.me/images/sprites/bountyhunter_tails.webp'
+  ],
   'shadow_bountyhunter.webp': ['https://mysprites.me/images/sprites/shadow_bountyhunter.webp'],
   'eightbit_bountyhunter.webp': ['https://mysprites.me/images/sprites/eightbit_bountyhunter.webp','https://mysprites.me/images/sprites/8bit_bountyhunter.webp'],
   'jackrabbit_bountyhunter.webp': ['https://mysprites.me/images/sprites/jackrabbit_bountyhunter.webp'],
@@ -52,11 +57,42 @@ const SOURCES = {
   'blinky_bountyhunter.webp': ['https://mysprites.me/images/sprites/blinky_bountyhunter.webp'],
   'crashbandicoot_bountyhunter.webp': ['https://mysprites.me/images/sprites/crash_bountyhunter.webp','https://mysprites.me/images/sprites/crashbandicoot_bountyhunter.webp'],
   'pond_bountyhunter.webp': ['https://mysprites.me/images/sprites/pond_bountyhunter.webp'],
-  'morgana_basic.webp': ['https://mysprites.me/images/sprites/morgana.webp','https://mysprites.me/images/sprites/morgana_basic.webp'],
+  'morgana_basic.webp': [
+    'https://mysprites.me/images/sprites/morgana.webp',
+    'https://mysprites.me/images/sprites/Morgana.webp',
+    'https://mysprites.me/images/sprites/morgana_basic.webp',
+    'https://mysprites.me/images/sprites/Morgana_basic.webp'
+  ],
   'morgana_gold.webp': ['https://mysprites.me/images/sprites/morgana_gold.webp'],
   'morgana_cheatmaster.webp': ['https://mysprites.me/images/sprites/morgana_cheatmaster.webp'],
   'morgana_loothacker.webp': ['https://mysprites.me/images/sprites/morgana_loothacker.webp'],
   'morgana_bountyhunter.webp': ['https://mysprites.me/images/sprites/morgana_bountyhunter.webp'],
+  'birthday_basic.webp': [
+    'https://mysprites.me/images/sprites/birthday.webp',
+    'https://mysprites.me/images/sprites/Birthday.webp',
+    'https://mysprites.me/images/sprites/birthday_basic.webp'
+  ],
+  'birthday_gold.webp': [
+    'https://mysprites.me/images/sprites/birthday_gold.webp',
+    'https://mysprites.me/images/sprites/Birthday_gold.webp',
+    'https://mysprites.me/images/sprites/gold_birthday.webp'
+  ],
+  'birthday_cheatmaster.webp': [
+    'https://mysprites.me/images/sprites/birthday_cheatmaster.webp',
+    'https://mysprites.me/images/sprites/Birthday_cheatmaster.webp',
+    'https://mysprites.me/images/sprites/cheatmaster_birthday.webp'
+  ],
+  'birthday_loothacker.webp': [
+    'https://mysprites.me/images/sprites/birthday_loothacker.webp',
+    'https://mysprites.me/images/sprites/Birthday_loothacker.webp',
+    'https://mysprites.me/images/sprites/loothacker_birthday.webp'
+  ],
+  'birthday_bountyhunter.webp': [
+    'https://mysprites.me/images/sprites/birthday_bountyhunter.webp',
+    'https://mysprites.me/images/sprites/Birthday_bountyhunter.webp',
+    'https://mysprites.me/images/sprites/bountyhunter_birthday.webp',
+    'https://mysprites.me/images/sprites/birthday_reaper.webp'
+  ],
   'crown_bountyhunter.webp': [
     'https://mysprites.me/images/sprites/crown_bountyhunter.webp',
     'https://mysprites.me/images/sprites/Crown_bountyhunter.webp',
