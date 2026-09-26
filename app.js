@@ -15,7 +15,8 @@
     'eightbit_bountyhunter.webp', 'jackrabbit_bountyhunter.webp', 'killswitch_bountyhunter.webp',
     'klombo_bountyhunter.webp', 'overshield_bountyhunter.webp', 'xray_bountyhunter.webp',
     'onigiri_bountyhunter.webp', 'stormscout_bountyhunter.webp',
-    'morgana_basic.webp', 'morgana_gold.webp', 'morgana_cheatmaster.webp', 'morgana_loothacker.webp', 'morgana_bountyhunter.webp'
+    'morgana_basic.webp', 'morgana_gold.webp', 'morgana_cheatmaster.webp', 'morgana_loothacker.webp', 'morgana_bountyhunter.webp',
+    'birthday_basic.webp', 'birthday_gold.webp', 'birthday_cheatmaster.webp', 'birthday_loothacker.webp', 'birthday_bountyhunter.webp'
   ]);
 
   const players = [
@@ -43,7 +44,7 @@
     fam('overshield','Overshield'),
     { slug:'xray', family:'X-Ray', entries:[['base','X-Ray'],['gold','Gold X-Ray'],['cheatmaster','Cheatmaster X-Ray'],['loothacker','Loot Hacker X-Ray'],['bountyhunter','Bounty Hunter X-Ray']] },
     { slug:'onigiri', family:'Onigiri', entries:[['base','Onigiri'],['gold','Gold Onigiri'],['cheatmaster','Cheatmaster Onigiri'],['loothacker','Loot Hacker Onigiri'],['bountyhunter','Bounty Hunter Onigiri']] },
-    fam('stormscout','Storm Scout'), fam('blinky','Blinky'), fam('crashbandicoot','Crash Bandicoot'), fam('pond','Pond'), fam('morgana','Morgana')
+    fam('stormscout','Storm Scout'), fam('blinky','Blinky'), fam('crashbandicoot','Crash Bandicoot'), fam('pond','Pond'), fam('morgana','Morgana'), fam('birthday','Birthday')
   ];
 
   const sprites = families.flatMap(({slug,family,entries}) => entries.map(([variant,name]) => ({
