@@ -134,14 +134,15 @@
 }
 
 
-/* Four-player layout */
-.player-row{grid-template-columns:repeat(4,minmax(0,1fr))}
-.player-stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+/* Five-player layout */
+.player-row{grid-template-columns:repeat(5,minmax(0,1fr))}
+.player-stats{grid-template-columns:repeat(5,minmax(0,1fr))}
 @media(max-width:780px){
   .player-row{gap:3px}
 }
 @media(max-width:560px){
   .player-row{gap:2px}
-  .player-mark{font-size:.62rem}
-  .symbol{font-size:.46rem}
+  .player-mark{height:31px;font-size:.56rem}
+  .symbol{font-size:.42rem}
+  .crown{font-size:.72rem}
 }
