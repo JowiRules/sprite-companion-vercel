@@ -1,11 +1,12 @@
 module.exports = async function handler(req,res){
   const names=[
-    'spookydash.webp','spookydash_basic.webp','spooky_dash.webp','spooky_dash_basic.webp',
-    'spookydash_gold.webp','spooky_dash_gold.webp','spookydash_cheatmaster.webp','spooky_dash_cheatmaster.webp','spookydash_loothacker.webp','spooky_dash_loothacker.webp','spookydash_bountyhunter.webp','spooky_dash_bountyhunter.webp','spookydash_trickortreat.webp','spooky_dash_trickortreat.webp','spookydash_trick_or_treat.webp',
-    'vampire.webp','vampire_basic.webp','vampire_gold.webp','vampire_cheatmaster.webp','vampire_loothacker.webp','vampire_bountyhunter.webp','vampire_trickortreat.webp','vampire_trick_or_treat.webp',
-    'thedeer.webp','thedeer_basic.webp','the_deer.webp','the_deer_basic.webp','thedeer_gold.webp','the_deer_gold.webp','thedeer_cheatmaster.webp','the_deer_cheatmaster.webp','thedeer_loothacker.webp','the_deer_loothacker.webp','thedeer_bountyhunter.webp','the_deer_bountyhunter.webp','thedeer_trickortreat.webp','the_deer_trickortreat.webp',
-    'dumpsterdive.webp','dumpsterdive_basic.webp','dumpster_dive.webp','dumpster_dive_basic.webp','dumpsterdive_gold.webp','dumpster_dive_gold.webp','dumpsterdive_loothacker.webp','dumpster_dive_loothacker.webp','dumpsterdive_bountyhunter.webp','dumpster_dive_bountyhunter.webp','dumpsterdive_trickortreat.webp','dumpster_dive_trickortreat.webp',
-    'crown_trickortreat.webp','crown_trick_or_treat.webp','klombo_trickortreat.webp','crash_trickortreat.webp','crashbandicoot_trickortreat.webp','blinky_trickortreat.webp'
+    'jonesy_trickortreat.webp','adventure_trickortreat.webp','bush_trickortreat.webp','bushranger_trickortreat.webp','sonic_trickortreat.webp','tails_trickortreat.webp','shadow_trickortreat.webp','eightbit_trickortreat.webp','8bit_trickortreat.webp','killswitch_trickortreat.webp','overshield_trickortreat.webp','xray_trickortreat.webp','x-ray_trickortreat.webp','onigiri_trickortreat.webp','stormscout_trickortreat.webp','storm_scout_trickortreat.webp','morgana_trickortreat.webp','pond_trickortreat.webp','birthday_trickortreat.webp',
+    'vamp.webp','vamp_basic.webp','vampire.webp','vampire_basic.webp','vampiresprite.webp','vampire_sprite.webp',
+    'vamp_gold.webp','vampire_gold.webp','vamp_cheatmaster.webp','vampire_cheatmaster.webp','vamp_loothacker.webp','vampire_loothacker.webp','vamp_bountyhunter.webp','vampire_bountyhunter.webp','vamp_trickortreat.webp','vampire_trickortreat.webp',
+    'deer.webp','deer_basic.webp','thedeer.webp','thedeer_basic.webp','the_deer.webp','the_deer_basic.webp','deersprite.webp','thedeersprite.webp',
+    'deer_gold.webp','thedeer_gold.webp','deer_cheatmaster.webp','thedeer_cheatmaster.webp','deer_loothacker.webp','thedeer_loothacker.webp','deer_bountyhunter.webp','thedeer_bountyhunter.webp','deer_trickortreat.webp','thedeer_trickortreat.webp',
+    'dumpster.webp','dumpster_basic.webp','dumpsterdive.webp','dumpsterdive_basic.webp','dumpster_dive.webp','dumpster_dive_basic.webp','dumpsterdivesprite.webp',
+    'dumpster_gold.webp','dumpsterdive_gold.webp','dumpster_cheatmaster.webp','dumpsterdive_cheatmaster.webp','dumpster_loothacker.webp','dumpsterdive_loothacker.webp','dumpster_bountyhunter.webp','dumpsterdive_bountyhunter.webp','dumpster_trickortreat.webp','dumpsterdive_trickortreat.webp'
   ];
   const out=[];
   for(const n of names){
