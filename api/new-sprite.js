@@ -86,6 +86,7 @@ const SOURCES = {
   'bush_bountyhunter.webp': ['https://mysprites.me/images/sprites/bush_bountyhunter.webp'],
   'sonic_bountyhunter.webp': ['https://mysprites.me/images/sprites/sonic_bountyhunter.webp'],
   'tails_bountyhunter.webp': [
+    ST('reaper-tails'),
     'https://mysprites.me/images/sprites/tails_bountyhunter.webp',
     'https://mysprites.me/images/sprites/Tails_bountyhunter.webp',
     'https://mysprites.me/images/sprites/tails_bountyHunter.webp',
@@ -104,6 +105,7 @@ const SOURCES = {
   'crashbandicoot_bountyhunter.webp': ['https://mysprites.me/images/sprites/crash_bountyhunter.webp','https://mysprites.me/images/sprites/crashbandicoot_bountyhunter.webp'],
   'pond_bountyhunter.webp': ['https://mysprites.me/images/sprites/pond_bountyhunter.webp'],
   'morgana_basic.webp': [
+    ST('increaseheals'),
     'https://mysprites.me/images/sprites/morgana.webp',
     'https://mysprites.me/images/sprites/Morgana.webp',
     'https://mysprites.me/images/sprites/morgana_basic.webp',
