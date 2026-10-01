@@ -1,4 +1,50 @@
+const ST = slug => `https://api.spritetrading.com/sprites/${slug}.webp?w=512`;
+
 const SOURCES = {
+  'jonesy_trickortreat.webp': [ST('tricktreat-jonesy')],
+  'adventure_trickortreat.webp': [ST('tricktreat-adventure')],
+  'bush_trickortreat.webp': [ST('tricktreat-bush')],
+  'sonic_trickortreat.webp': [ST('tricktreat-sonic')],
+  'tails_trickortreat.webp': [ST('tricktreat-tails')],
+  'shadow_trickortreat.webp': [ST('tricktreat-shadow')],
+  'eightbit_trickortreat.webp': [ST('tricktreat-8bit')],
+  'jackrabbit_trickortreat.webp': [ST('tricktreat-jackrabbit')],
+  'crown_trickortreat.webp': [ST('tricktreat-crown')],
+  'killswitch_trickortreat.webp': [ST('tricktreat-killswitch')],
+  'klombo_trickortreat.webp': [ST('tricktreat-klombo')],
+  'overshield_trickortreat.webp': [ST('tricktreat-overshield')],
+  'xray_trickortreat.webp': [ST('tricktreat-winnerb')],
+  'onigiri_trickortreat.webp': [ST('tricktreat-winnerc')],
+  'stormscout_trickortreat.webp': [ST('tricktreat-stormscout')],
+  'blinky_trickortreat.webp': [ST('tricktreat-ghostdamage')],
+  'crashbandicoot_trickortreat.webp': [ST('tricktreat-bodyslam')],
+  'pond_trickortreat.webp': [ST('tricktreat-winnera')],
+  'morgana_trickortreat.webp': [ST('tricktreat-increaseheals')],
+  'birthday_trickortreat.webp': [ST('tricktreat-birthday')],
+  'spookydash_basic.webp': [ST('phasedash')],
+  'spookydash_gold.webp': [ST('gold-phasedash')],
+  'spookydash_cheatmaster.webp': [ST('cheatmaster-phasedash')],
+  'spookydash_loothacker.webp': [ST('loothacker-phasedash')],
+  'spookydash_bountyhunter.webp': [ST('reaper-phasedash')],
+  'spookydash_trickortreat.webp': [ST('tricktreat-phasedash')],
+  'vampire_basic.webp': [ST('healthsiphon')],
+  'vampire_gold.webp': [ST('gold-healthsiphon')],
+  'vampire_cheatmaster.webp': [ST('cheatmaster-healthsiphon')],
+  'vampire_loothacker.webp': [ST('loothacker-healthsiphon')],
+  'vampire_bountyhunter.webp': [ST('reaper-healthsiphon')],
+  'vampire_trickortreat.webp': [ST('tricktreat-healthsiphon')],
+  'thedeer_basic.webp': [ST('increasedmelee')],
+  'thedeer_gold.webp': [ST('gold-increasedmelee')],
+  'thedeer_cheatmaster.webp': [ST('cheatmaster-increasedmelee')],
+  'thedeer_loothacker.webp': [ST('loothacker-increasedmelee')],
+  'thedeer_bountyhunter.webp': [ST('reaper-increasedmelee')],
+  'thedeer_trickortreat.webp': [ST('tricktreat-increasedmelee')],
+  'dumpsterdive_basic.webp': [ST('winnerd')],
+  'dumpsterdive_gold.webp': [ST('gold-winnerd')],
+  'dumpsterdive_cheatmaster.webp': [ST('cheatmaster-winnerd')],
+  'dumpsterdive_loothacker.webp': [ST('loothacker-winnerd')],
+  'dumpsterdive_bountyhunter.webp': [ST('reaper-winnerd')],
+  'dumpsterdive_trickortreat.webp': [ST('tricktreat-winnerd')],
   'blinky_basic.webp': [
     'https://mysprites.me/images/sprites/Blinky.webp'
   ],
@@ -107,7 +153,7 @@ async function proxyImage(url, res) {
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; SpriteCompanion/1.0)',
         'Accept': 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
-        'Referer': 'https://mysprites.me/backbling'
+        'Referer': url.includes('spritetrading.com') ? 'https://spritetrading.com/' : 'https://mysprites.me/'
       }
     });
     const type = (r.headers.get('content-type') || '').toLowerCase();
