@@ -1,3 +1,11 @@
+/* Desktop: one full six-variant family per row */
+@media(min-width:1051px){
+  .grid{
+    grid-template-columns:repeat(6,minmax(0,1fr));
+    gap:12px;
+  }
+}
+
 /* Compact card layout + text-overlap fixes */
 .card-body{
   margin-top:0;
