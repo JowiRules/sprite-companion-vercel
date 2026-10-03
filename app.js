@@ -50,7 +50,8 @@
     fam('spookydash','Spooky Dash'), fam('vampire','Vampire'), fam('thedeer','The Deer'), fam('dumpsterdive','Dumpster Dive')
   ];
 
-  const sprites = families.flatMap(({slug,family,entries}) => entries.map(([variant,name]) => ({
+  const orderedFamilies = [...families].sort((a,b) => b.entries.length - a.entries.length);
+  const sprites = orderedFamilies.flatMap(({slug,family,entries}) => entries.map(([variant,name]) => ({
     id:`${slug}_${variant}`, slug, family, variant, name, file:`${slug}_${suffix[variant]}.webp`
   })));
 
