@@ -1,6 +1,23 @@
 const ST = slug => `https://api.spritetrading.com/sprites/${slug}.webp?w=512`;
 
 const SOURCES = {
+  'honey_basic.webp': [ST('winnere')],
+  'honey_gold.webp': [ST('gold-winnere')],
+  'honey_cheatmaster.webp': [ST('cheatmaster-winnere')],
+  'honey_loothacker.webp': [ST('loothacker-winnere')],
+  'honey_bountyhunter.webp': [ST('reaper-winnere')],
+  'honey_trickortreat.webp': [ST('tricktreat-winnere')],
+  'onewishwillow_basic.webp': [ST('cargolying')],
+  'onewishwillow_gold.webp': [ST('gold-cargolying')],
+  'onewishwillow_cheatmaster.webp': [ST('cheatmaster-cargolying')],
+  'onewishwillow_loothacker.webp': [ST('loothacker-cargolying')],
+  'onewishwillow_bountyhunter.webp': [ST('reaper-cargolying')],
+  'onewishwillow_trickortreat.webp': [ST('tricktreat-cargolying')],
+  'jonesy_quack.webp': [ST('quack-jonesy')],
+  'adventure_quack.webp': [ST('quack-adventure')],
+  'bush_quack.webp': [ST('quack-bush')],
+  'klombo_quack.webp': [ST('quack-klombo')],
+  'spookydash_quack.webp': [ST('quack-phasedash')],
   'jonesy_trickortreat.webp': [ST('tricktreat-jonesy')],
   'adventure_trickortreat.webp': [ST('tricktreat-adventure')],
   'bush_trickortreat.webp': [ST('tricktreat-bush')],
