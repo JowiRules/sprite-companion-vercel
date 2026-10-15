@@ -18,6 +18,8 @@
     'morgana_basic.webp', 'morgana_gold.webp', 'morgana_cheatmaster.webp', 'morgana_loothacker.webp', 'morgana_bountyhunter.webp',
     'birthday_basic.webp', 'birthday_gold.webp', 'birthday_cheatmaster.webp', 'birthday_loothacker.webp', 'birthday_bountyhunter.webp',
     'jonesy_trickortreat.webp', 'adventure_trickortreat.webp', 'bush_trickortreat.webp', 'sonic_trickortreat.webp', 'tails_trickortreat.webp', 'shadow_trickortreat.webp', 'eightbit_trickortreat.webp', 'jackrabbit_trickortreat.webp', 'crown_trickortreat.webp', 'killswitch_trickortreat.webp', 'klombo_trickortreat.webp', 'overshield_trickortreat.webp', 'xray_trickortreat.webp', 'onigiri_trickortreat.webp', 'stormscout_trickortreat.webp', 'blinky_trickortreat.webp', 'crashbandicoot_trickortreat.webp', 'pond_trickortreat.webp', 'morgana_trickortreat.webp', 'birthday_trickortreat.webp', 'spookydash_basic.webp', 'spookydash_gold.webp', 'spookydash_cheatmaster.webp', 'spookydash_loothacker.webp', 'spookydash_bountyhunter.webp', 'spookydash_trickortreat.webp', 'vampire_basic.webp', 'vampire_gold.webp', 'vampire_cheatmaster.webp', 'vampire_loothacker.webp', 'vampire_bountyhunter.webp', 'vampire_trickortreat.webp', 'thedeer_basic.webp', 'thedeer_gold.webp', 'thedeer_cheatmaster.webp', 'thedeer_loothacker.webp', 'thedeer_bountyhunter.webp', 'thedeer_trickortreat.webp', 'dumpsterdive_basic.webp', 'dumpsterdive_gold.webp', 'dumpsterdive_cheatmaster.webp', 'dumpsterdive_loothacker.webp', 'dumpsterdive_bountyhunter.webp', 'dumpsterdive_trickortreat.webp'
+,
+    'honey_basic.webp', 'honey_gold.webp', 'honey_cheatmaster.webp', 'honey_loothacker.webp', 'honey_bountyhunter.webp', 'honey_trickortreat.webp', 'onewishwillow_basic.webp', 'onewishwillow_gold.webp', 'onewishwillow_cheatmaster.webp', 'onewishwillow_loothacker.webp', 'onewishwillow_bountyhunter.webp', 'onewishwillow_trickortreat.webp', 'bush_quack.webp', 'adventure_quack.webp', 'jonesy_quack.webp', 'klombo_quack.webp', 'spookydash_quack.webp'
   ]);
 
   const players = [
@@ -29,9 +31,9 @@
   ];
 
   const labels = {
-    base: 'Base', gold: 'Gold', cheatmaster: 'Cheat Master', loothacker: 'Loot Hacker', bountyhunter: 'Bounty Hunter', trickortreat: 'Trick or Treat'
+    base: 'Base', gold: 'Gold', cheatmaster: 'Cheat Master', loothacker: 'Loot Hacker', bountyhunter: 'Bounty Hunter', trickortreat: 'Trick or Treat', quack: 'Quack'
   };
-  const suffix = { base: 'basic', gold: 'gold', cheatmaster: 'cheatmaster', loothacker: 'loothacker', bountyhunter: 'bountyhunter', trickortreat: 'trickortreat' };
+  const suffix = { base: 'basic', gold: 'gold', cheatmaster: 'cheatmaster', loothacker: 'loothacker', bountyhunter: 'bountyhunter', trickortreat: 'trickortreat', quack: 'quack' };
   const fam = (slug, family, base = family) => ({ slug, family, entries: [
     ['base', base], ['gold', `Gold ${base}`], ['cheatmaster', `Cheat Master ${base}`], ['loothacker', `Loot Hacker ${base}`], ['bountyhunter', `Bounty Hunter ${base}`], ['trickortreat', `Trick or Treat ${base}`]
   ]});
@@ -47,13 +49,26 @@
     { slug:'xray', family:'X-Ray', entries:[['base','X-Ray'],['gold','Gold X-Ray'],['cheatmaster','Cheatmaster X-Ray'],['loothacker','Loot Hacker X-Ray'],['bountyhunter','Bounty Hunter X-Ray'],['trickortreat','Trick or Treat X-Ray']] },
     { slug:'onigiri', family:'Onigiri', entries:[['base','Onigiri'],['gold','Gold Onigiri'],['cheatmaster','Cheatmaster Onigiri'],['loothacker','Loot Hacker Onigiri'],['bountyhunter','Bounty Hunter Onigiri'],['trickortreat','Trick or Treat Onigiri']] },
     fam('stormscout','Storm Scout'), fam('blinky','Blinky'), fam('crashbandicoot','Crash Bandicoot'), fam('pond','Pond'), fam('morgana','Morgana'), fam('birthday','Birthday'),
-    fam('spookydash','Spooky Dash'), fam('vampire','Vampire'), fam('thedeer','The Deer'), fam('dumpsterdive','Dumpster Dive')
+    fam('spookydash','Spooky Dash'), fam('vampire','Vampire'), fam('thedeer','The Deer'), fam('dumpsterdive','Dumpster Dive'),
+    fam('honey','Honey'), fam('onewishwillow','One Wish Willow')
   ];
 
   const orderedFamilies = [...families].sort((a,b) => b.entries.length - a.entries.length);
-  const sprites = orderedFamilies.flatMap(({slug,family,entries}) => entries.map(([variant,name]) => ({
+  const spriteFrom = ({slug, family}, [variant, name]) => ({
     id:`${slug}_${variant}`, slug, family, variant, name, file:`${slug}_${suffix[variant]}.webp`
-  })));
+  });
+  // Keep each six-variant family on a full desktop row. Place the five
+  // limited Quack forms together, then single-form sprites such as Mega Man.
+  const sprites = [
+    ...orderedFamilies.filter(f => f.entries.length > 1)
+      .flatMap(f => f.entries.map(e => spriteFrom(f,e))),
+    ...['jonesy','adventure','bush','klombo','spookydash'].map(slug => {
+      const family = families.find(f => f.slug === slug);
+      return spriteFrom(family, ['quack', `Quack ${family.family}`]);
+    }),
+    ...orderedFamilies.filter(f => f.entries.length === 1)
+      .flatMap(f => f.entries.map(e => spriteFrom(f,e)))
+  ];
 
   const state = { progress:new Map(), search:'', variant:'all', filter:'all', saving:new Set() };
   const $ = s => document.querySelector(s);
@@ -225,7 +240,7 @@
 
   function buildFilters() {
     const vf=$('#variantFilters');
-    [['all','Todas'],['base','Base'],['gold','Gold'],['cheatmaster','Cheat Master'],['loothacker','Loot Hacker'],['bountyhunter','Bounty Hunter'],['trickortreat','Trick or Treat']].forEach(([v,t])=>{
+    [['all','Todas'],['base','Base'],['gold','Gold'],['cheatmaster','Cheat Master'],['loothacker','Loot Hacker'],['bountyhunter','Bounty Hunter'],['trickortreat','Trick or Treat'],['quack','Quack']].forEach(([v,t])=>{
       const b=document.createElement('button');
       b.textContent=t;
       b.className=v==='all'?'active':'';
