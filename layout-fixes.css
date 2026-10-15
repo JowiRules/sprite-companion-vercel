@@ -154,3 +154,6 @@
   .symbol{font-size:.42rem}
   .crown{font-size:.72rem}
 }
+
+/* Special Quack variants */
+.variant-quack{--variant:#f6d77e}
