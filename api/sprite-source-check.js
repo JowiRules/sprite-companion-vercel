@@ -13,13 +13,7 @@ module.exports=async function handler(req,res){
     }));
     res.setHeader('Cache-Control','no-store');res.setHeader('Content-Type','application/json');return res.end(JSON.stringify(results));
   }
-  const slugs=[
-    'winnere','winnerf','honey','obsession','onewishwillow','one-wish-willow','willow','honeybee','bees','honey-sprite','onewish',
-    'gold-winnere','cheatmaster-winnere','loothacker-winnere','reaper-winnere','tricktreat-winnere',
-    'gold-winnerf','cheatmaster-winnerf','loothacker-winnerf','reaper-winnerf','tricktreat-winnerf',
-    'quack-jonesy','quack-adventure','quack-bush','quack-klombo','quack-phasedash',
-    'quack-spookydash','quack-winnerf','quack-crown','quack-obsession'
-  ];
+  const slugs=["winnere","gold-winnere","cheatmaster-winnere","loothacker-winnere","reaper-winnere","tricktreat-winnere","cargolying","gold-cargolying","cheatmaster-cargolying","loothacker-cargolying","reaper-cargolying","tricktreat-cargolying","quack-jonesy","quack-adventure","quack-bush","quack-klombo","quack-phasedash"];
   const results=await Promise.all(slugs.map(async slug=>{
     const url='https://api.spritetrading.com/sprites/'+slug+'.webp?w=192';
     const r=await tryFetch(url);
